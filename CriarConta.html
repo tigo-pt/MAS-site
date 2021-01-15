@@ -1,0 +1,232 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1, shrink-to-fit=no" />
+    <title>CircularLink</title>
+    <!--
+    <link href="../Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="../Content/font-awesome.min.css" rel="stylesheet" />
+    -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            position: relative
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="border-bottom py-2 mb-2" style="text-align:center;font-weight:bolder">CircularLink</h1>
+        <form name="criar conta">
+            <div class="row form-group">
+                <label for="Nome" class="col-md-2 col-form-label">Nome</label>
+                <div class="col-md-10">
+                    <input type="text" name="Nome" id="nome" class="form-control" />
+                    <div class="d-none text-danger col-form-label" id="nomeError"><i
+                            class="fa fa-exclamation-triangle"></i> Este campo é de preenchimento obrigatório (Min: 3
+                        letras).</div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <label for="Email" class="col-md-2 col-form-label">Email</label>
+                <div class="col-md-10">
+                    <input type="email" name="Email" id="email" class="form-control" />
+                    <div class="d-none text-danger col-form-label" id="emailError"><i
+                            class="fa fa-exclamation-triangle"></i> Este campo é de preenchimento obrigatório (Min: 3
+                        letras).</div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <label for="password" class="col-md-2 col-form-label">Password</label>
+                <div class="col-md-10">
+                    <input type="password" name="password" id="password" class="form-control" />
+                    <div class="d-none text-danger col-form-label" id="passwordError"><i
+                            class="fa fa-exclamation-triangle"></i> Este campo é de preenchimento obrigatório (Min: 3
+                        letras).</div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <label for="Morada" class="col-md-2 col-form-label">Morada</label>
+                <div class="col-md-10">
+                    <textarea name="Morada" id="morada" class="form-control" rows="4"></textarea>
+                    <div class="d-none text-danger col-form-label" id="moradaError"><i
+                            class="fa fa-exclamation-triangle"></i> Este campo é de preenchimento obrigatório (Min: 3
+                        palavras).</div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <label for="Curso" class="col-md-2 col-form-label">Contrato</label>
+                <div class="col-md-10">
+                    <select name="contrato" id="contrato" class="form-control">
+                        <option value="">--- Selecione um tipo de contrato ---</option>
+                        <option value="1">Cliente</option>
+                        <option value="2">Sócio</option>
+                    </select>
+                    <div class="d-none text-danger col-form-label" id="contratoError"><i
+                            class="fa fa-exclamation-triangle"></i> Escolha um contrato.
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="" class="col-md-2 col-form-label">NIF</label>
+                    <input type="text" id="nif" class="form-control" placeholder="">
+                    <div class="d-none text-danger col-form-label" id="nifError"><i
+                            class="fa fa-exclamation-triangle"></i> Este campo é de preenchimento obrigatório (Min: 8
+                        caracteres).</div>
+                </div>
+                <div class="col">
+                    <label for="" class="col-md-2 col-form-label ">Contacto</label>
+                    <input type="text" id="contacto" class="form-control">
+                    <div class="d-none text-danger col-form-label" id="contactoError"><i
+                            class="fa fa-exclamation-triangle"></i> Este campo é de preenchimento obrigatório (Min: 9
+                        caracteres).</div>
+                </div>
+            </div>
+
+            <!--
+            <div class="row m-auto">
+                <h5>Informação: Se pretende criar uma conta para Parceiros por favor envie um email para: <span
+                        style="font-weight:bolder">parcerias@circularlink.pt</span></h5>
+            </div>
+            -->
+
+            <div class="row form-group mt-3">
+                <div class="col-md-10">
+                    <a href="Index.html" class="btn btn-secondary">Voltar</a>
+                    <input type="reset" name="resetBtn" value="Limpar" class="btn btn-danger" />
+                    <input type="button" id="criar_conta" name="submitBtn" value="Criar conta" class="btn btn-success"
+                        onclick="validate()" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
+    -->
+    <script src="./Scripts/jquery-3.5.1.min.js"></script>
+    <script src="./Scripts/bootstrap.min.js"></script>
+    <script src="./Scripts/knockout-3.5.1.js"></script>
+    <script src="./Scripts/amplify.js"></script>
+    <script>
+        function error(obj) {
+            if (typeof (obj) == "string") {
+                cl = document.getElementById(obj + "Error")
+            }
+            else {
+                cl = document.getElementById(obj.id + "Error")
+            }
+            cl.classList.add("d-block")
+            cl.classList.remove("d-none")
+        }
+
+        function validate() {
+            var retVal = true;
+            var name = document.getElementById("nome");
+            if (name.value.trim().length < 3) {
+                retVal = false;
+                error(name)
+            }
+            var email = document.getElementById("email");
+            if (email.value.trim().length < 3) {
+                retVal = false;
+                error(email)
+            }
+            var password = document.getElementById("password");
+            if (password.value.trim().length < 3) {
+                retVal = false;
+                error(password)
+            }
+            var morada = document.getElementById("morada");
+            if (morada.value.split(" ").length < 3) {
+                retVal = false;
+                error(morada);
+            }
+            var nif = document.getElementById("nif");
+            if (nif.value.trim().length < 8) {
+                retVal = false;
+                error(nif);
+            }
+            var contacto = document.getElementById("contacto");
+            if (contacto.value.trim().length < 9) {
+                retVal = false;
+                error(contacto);
+            }
+            var contrato = document.getElementById("contrato");
+            if (contrato.selectedIndex == 0) {
+                retVal = false;
+                error(contrato)
+            }
+            console.log(retVal)
+            return retVal
+        }
+
+    </script>
+    <script>
+        $().ready(function () {
+            function go_to(c) {
+                window.location.href = './Login.html?id=' + c
+            }
+            function getbaseurl() {
+                var sPageURL = window.location.href.toString();
+                return String(sPageURL.slice(0, 37))
+            }
+            function adduser(c) {
+                email = $('#Email').val()
+                // Verificar se já existem contas adicionadas
+                if (amplify.store('users') == undefined) {
+                    lst = []
+                }
+                else {
+                    lst = amplify.store('users')
+                }
+                // Verificar se conta já existe
+                for (i in lst) {
+                    if (email == lst[i].email) {
+                        // Adicionar aviso de conta já existir
+                        return
+                    }
+                }
+                user = {
+                    'password': $('#password').val(),
+                    'email': $('#email').val(),
+                    'status': c,
+                    'morada': $('#morada').val(),
+                    'nif': $('#nif').val(),
+                    'contacto': $('#contacto').val(),
+                    'p': lst.length
+                }
+                lst.push(user)
+                amplify.store('users', lst)
+            }
+            $('#criar_conta').click(function () {
+                v = validate()
+                if (v) {
+                    if (contrato.selectedIndex == 1) {
+                        var c = 'Cliente'
+                    }
+                    else {
+                        var c = 'Socio'
+                    }
+                    adduser(c)
+                    go_to(c)
+                }
+            })
+
+        })
+    </script>
+</body>
+
+</html>
