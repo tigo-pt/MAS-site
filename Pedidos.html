@@ -48,7 +48,20 @@
         <div class="col-md-6 col-sm-12" style="padding-top: 15px;">
             <h1 id="estabelecimento" style="font-weight: bolder"></h1>
         </div>
-
+        <div class="row mt-3" style="text-align:center" data-bind="foreach: pedidos">
+            <div class="col-md-4 col-sm-12 mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" data-bind="text: nome_p"></h5>
+                        <p class="card-text" data-bind="text: descricao"></p>
+                        <a href="#" class="card-link btn" style="background-color:lawngreen"
+                            data-bind="visible: status">Disponível</a>
+                        <a href="#" class="card-link btn" style="background-color:red"
+                            data-bind="hidden: status">Indisponível</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="./Scripts/jquery-3.5.1.min.js"></script>
     <script src="./Scripts/bootstrap.min.js"></script>
@@ -62,93 +75,34 @@
         function go_to(id) {
             window.location.href = './Socio.html'
         }
-        function getid() {
-            console.log(window.location.href)
-            var sPageURL = window.location.href.toString();
-            for (i in sPageURL) {
-                if (sPageURL[i] === '=') {
-                    return String(sPageURL.slice((parseInt(i) + 1)))
-                }
-            }
-        }
-        function error(obj) {
-            if (typeof (obj) == "string") {
-                cl = document.getElementById(obj + "Error")
-            }
-            else {
-                cl = document.getElementById(obj.id + "Error")
-            }
-            cl.classList.add("d-block")
-            cl.classList.remove("d-none")
-        }
-
-        function validate() {
-
-            var retVal = true;
-            var name = document.getElementById("nome");
-            if (name.value.trim().length < 1) {
-                retVal = false;
-                error(name)
-            }
-            var descricao = document.getElementById("descricao");
-            if (descricao.value.split(" ").length < 1) {
-                retVal = false;
-                error(descricao);
-            }
-            console.log($('#ing'))
-            var ing = document.getElementById("ing");
-            if (ing.value.split(" ").length < 1) {
-                retVal = false;
-                error(ing);
-            }
-
-
-            var despacho = document.getElementById("despacho");
-            if (despacho.value.split(" ").length < 1) {
-                retVal = false;
-                error(despacho);
-            }
-
-            console.log(retVal)
-            return retVal
-        }
-        function addpedido() {
-
-
-
-            email = getid()
-            users = amplify.store('users')
-            for (i in users) {
-                if (users[i].email == email) {
-                    vendedor = users[i]
-                }
-            }
-            // Encotrar os dados do vendedor
-            if (amplify.store('pedidos') == undefined) {
+        function vm() {
+            self = this
+            self.ap = ko.observable('')
+            self.dis = ko.observable('')
+            self.pedidos = ko.observableArray('')
+            self.activate = function () {
                 lst = []
+                //email do vendedor
+                vendedor = amplify.store('CurrentUser')
+                ev = vendedor.email
+                //todos os pedidos
+                tp = amplify.store('pedidos')
+                for (i in tp) {
+                    if (ev == tp[i].emailvendedor) {
+                        lst.push(tp[i])
+                    }
+                }
+                self.pedidos(lst)
+                //email = getid()
+                //users = amplify.store('users')
+                //for (i in users) {
+                //    if (users[i].email == email) {
+                //        vendedor = users[i]
+                //    }
+                //}
+                self.est(vendedor.est)
             }
-            else {
-                lst = amplify.store('pedidos')
-            }
-
-            pedido = {
-                'emailvendedor': email,
-                'status': 'disponivel',
-                'contacto': vendedor.contacto,
-                'p': lst.length,
-                'establecimento': vendedor.est,
-                'nome_p': $('#nome').val(),
-                'descricao': $('#descricao').val(),
-                'ingredientes': $('#ing').val(),
-                'rdespacho': $('#despacho').val(),
-                'datas': [$('#datac').val(), $('#datad').val()],
-                'horas': [$('#horac').val(), $('#horad').val()],
-                'precos': [$('#po').val(), $('#po').val()]
-            }
-            console.log(pedido)
-            lst.push(pedido)
-            amplify.store('pedidos', lst)
-            //definir pedido na lista de pedidos
+            self.activate()
         }
         $().ready(function () {
             // Verificar se existe login
@@ -157,6 +111,9 @@
                 go_to("./index.html")
             // Alterar nome do Estabelecimento
             document.getElementById("estabelecimento").innerHTML = currUser.est;
+
+
+            ko.applyBindings(new vm())
 
             $('#criar_pedido').click(function () {
                 console.log($('#ing').val())
