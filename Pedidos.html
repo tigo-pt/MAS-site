@@ -43,26 +43,29 @@
             </ul>
         </div>
     </nav>
-    <!-- Formulário -->
+    <!-- Pedidos Criados -->
     <div class="container">
-        <div class="col-md-6 col-sm-12" style="padding-top: 15px;">
+        <div class="col-sm-12" style="padding-top: 15px;">
             <h1 id="estabelecimento" style="font-weight: bolder"></h1>
         </div>
-        <div class="row mt-3" style="text-align:center" data-bind="foreach: pedidos">
-            <div class="col-md-4 col-sm-12 mt-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title" data-bind="text: nome_p"></h5>
-                        <p class="card-text" data-bind="text: descricao"></p>
-                        <a href="#" class="card-link btn" style="background-color:lawngreen"
-                            data-bind="visible: status">Disponível</a>
-                        <a href="#" class="card-link btn" style="background-color:red"
-                            data-bind="hidden: status">Indisponível</a>
-                    </div>
+        <div class="d-grid gap-2 col-12 mx-auto" style="padding-top: 10px;" id="pedidos">
+            <!-- Teste
+            <div class="card mb-2 ">
+                <h5 class="card-header font-weight-bold">Anúncio #ID</h5>
+                <div class="card-body row">
+                    <h5 class="card-title col-sm-8">Nome da refeição</h5>
+                    <a href="#" class="btn btn-dark col-sm-4 stretched-link"
+                        style="background-color:rgb(255, 10, 60);"><b>Expirado</b></a>
                 </div>
             </div>
+            -->
+        </div>
+        <div id="aviso" class="mt-2 col-md-12" style="display: none;">
+            <h1 class="text-danger"><i class="fa fa-warning ">Ainda não publicou nenhum anúncio.</i></h1>
         </div>
     </div>
+
+
     <script src="./Scripts/jquery-3.5.1.min.js"></script>
     <script src="./Scripts/bootstrap.min.js"></script>
     <script src="./Scripts/knockout-3.5.1.js"></script>
@@ -72,37 +75,58 @@
             amplify.store('CurrentUser', null)
             go_to('./index.html')
         }
-        function go_to(id) {
-            window.location.href = './Socio.html'
+        function go_to(hr) {
+            window.location.href = hr
         }
-        function vm() {
-            self = this
-            self.ap = ko.observable('')
-            self.dis = ko.observable('')
-            self.pedidos = ko.observableArray('')
-            self.activate = function () {
-                lst = []
-                //email do vendedor
-                vendedor = amplify.store('CurrentUser')
-                ev = vendedor.email
-                //todos os pedidos
-                tp = amplify.store('pedidos')
-                for (i in tp) {
-                    if (ev == tp[i].emailvendedor) {
-                        lst.push(tp[i])
-                    }
-                }
-                self.pedidos(lst)
-                //email = getid()
-                //users = amplify.store('users')
-                //for (i in users) {
-                //    if (users[i].email == email) {
-                //        vendedor = users[i]
-                //    }
-                //}
-                self.est(vendedor.est)
+        function verifyPedidos() {
+            pedidos = amplify.store("pedidos")
+            console.log(pedidos)
+            idx = [] // lista com indíces de pedidos correspondentes
+            for (i in pedidos)
+                if (pedidos[i].partnerID == currUser.p)
+                    idx.push(i)
+            if (idx.length < 1)
+                return false
+            listPedidos(idx)
+            return true
+        }
+        function listPedidos(idx) {
+            for (i in idx) {
+                p = pedidos[idx[i]]
+                document.getElementById("pedidos").innerHTML += generateCard(p)
             }
-            self.activate()
+        }
+        function generateCard(pedido) {
+            status = ""
+            color = ""
+            switch (pedido.status) {
+                case "disponivel":
+                    status = "Disponível"
+                    color = "rgb(10, 190, 10)"
+                    break
+                case "reservado":
+                    status = "Reservado"
+                    color = "rgb(170, 150, 20)"
+                    break
+                case "concluido":
+                    status = "Concluído"
+                    color = "rgb(30, 30, 225)"
+                    break
+                case "expirado":
+                    status = "Expirado"
+                    color = "rgb(255, 10, 60)"
+                    break
+                default:
+                    break
+            }
+            return "<div class=\"card mb-2\"> \
+                <h5 class=\"card-header font-weigth-bold\"> \
+                <b>Anúncio #" + pedido.pedidoID + "</b></h5> \
+                <div class=\"card-body row\"> \
+                <h5 class=\"card-title col-sm-8\">" + pedido.nome_p + "</h5> \
+                <a href=\"./EditarPedido.html?id=" + pedido.pedidoID +
+                "\" class=\"btn btn-dark col-sm-4 stretched-link\" style=\"background-color: " +
+                color + "\">" + status + "</a></div></div>"
         }
         $().ready(function () {
             // Verificar se existe login
@@ -112,18 +136,11 @@
             // Alterar nome do Estabelecimento
             document.getElementById("estabelecimento").innerHTML = currUser.est;
 
+            // Verificar se há anúncios e listá-los
+            if (!verifyPedidos())
+                $('#aviso').show()
 
-            ko.applyBindings(new vm())
 
-            $('#criar_pedido').click(function () {
-                console.log($('#ing').val())
-                console.log($('#despacho').val())
-                if (validate()) {
-                    addpedido()
-                    alert('Pedido publicado com sucesso')
-                    go_to(getid())
-                }
-            })
 
         })
 

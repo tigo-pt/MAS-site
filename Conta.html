@@ -20,10 +20,10 @@
 <body>
     <!-- Cabeçalho -->
     <nav class="navbar navbar-expand navbar-dark" style="background-color:rgb(51, 65, 29);">
-        <a class="navbar-brand" href="./Socio.html">
+        <a class="navbar-brand" href="./index.html">
             <img src="rec/CircularLink_logo.svg" alt="" width="45" height="45" />
         </a>
-        <a class="navbar-brand" href="./Socio.html">CircularLink</a>
+        <a class="navbar-brand" href="./index.html">CircularLink</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02"
             aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -43,12 +43,84 @@
             </ul>
         </div>
     </nav>
-    <!-- Formulário -->
     <div class="container">
-        <div class="col-md-6 col-sm-12" style="padding-top: 15px;">
-            <h1 id="estabelecimento" style="font-weight: bolder"></h1>
+        <div id="conta">
+            <!--Tipo de Conta e Nome-->
+            <div class="row">
+                <div class="col-lg-12" style="padding: 10;">
+                    <h1 style="margin-top:50px;color: forestgreen;"><b id="userType"></b></h1>
+                </div>
+                <div class="col-lg-12" style="padding: 10;">
+                    <h2 style="margin-top:10px;"><b id="userTitle"></b></h2>
+                    <input type="nome" name="Nome" id="nome" class="form-control" style="display: none" />
+                </div>
+            </div>
+            <!-- Email e Estabelecimento -->
+            <div class="row" style="margin-top:30px">
+                <div class="col-lg-5" style="padding: 10;">
+                    <h4 style="color: forestgreen;"><b>Email</b></h4>
+                    <h5 id="userEmail" class="p-heading p-large"></h5>
+                    <input type="email" name="Email" id="email" class="form-control" style="display: none" />
+                </div>
+                <div id="estabelecimento" class="col-lg-5" style="padding: 10; display: none;">
+                    <h4 style="color: forestgreen;"><b>Estabelecimento</b></h4>
+                    <h5 id="userEst" class="p-heading p-large"></h5>
+                    <input type="estabelecimento" name="Estabelecimento" id="estabelecimentoForm" class="form-control"
+                        style="display: none" />
+                </div>
+            </div>
+            <!-- Morada -->
+            <div class="row">
+                <div class="col-lg-5" style="padding: 10;">
+                    <h4 style="margin-top:10px;color: forestgreen;"><b>Morada</b></h4>
+                    <h5 id="userMor" class="p-heading p-larg-e"></h5>
+                    <input type="morada" name="Morada" id="morada" class="form-control" style="display: none" />
+                </div>
+                <div id="passwordOld" class="col-lg-4" style="padding: 10;display: none">
+                    <h4 style="margin-top:10px;color: forestgreen;"><b>Password Antiga</b></h4>
+                    <input type="password" name="Morada" id="pwOld" class="form-control" />
+                </div>
+            </div>
+            <!-- Contacto e NIF -->
+            <div class="row">
+                <div class="col-lg-2" style="padding: 10;">
+                    <h4 style="margin-top:10px;color: forestgreen;"><b>Contacto</b></h4>
+                    <h4 id="userCont" class="p-heading p-large font-weight-bold"></h4>
+                    <input type="contacto" name="Contacto" id="contacto" class="form-control" style="display: none" />
+                </div>
+                <div class="col-lg-2" style="padding: 10;">
+                    <h4 style="margin-top:10px;color: forestgreen;"><b>NIF</b></h4>
+                    <h4 id="userNIF" class="p-heading p-large font-weight-bold"></h4>
+                    <input type="nif" name="NIF" id="nif" class="form-control" style="display: none" />
+                </div>
+                <div class="col-lg-1" style="padding: 10;"></div>
+                <div id="passwordNew" class="col-lg-4" style="padding: 10;display: none">
+                    <h4 style=" margin-top:10px;color: forestgreen;"><b>Password Nova</b></h4>
+                    <input type="password" name="Morada" id="pwNew" class="form-control" />
+                </div>
+            </div>
+            <!-- Botões -->
+            <div class=" d-grid gap-2 d-md-block" style="padding-top: 30px;">
+                <button id="editar" class="btn btn-success btn-lg" type="button" onclick="editar()">Editar</button>
+                <button id="alterarPassword" class="btn btn-warning btn-lg" type="button"
+                    onclick="alterarPassword()">Alterar
+                    Password</button>
+                <button id="guardar" class="btn btn-success btn-lg" type="button" onclick="guardar()"
+                    style="display: none">Guardar</button>
+                <button id="cancelar" class="btn btn-warning btn-lg" type="button" onclick="display()"
+                    style="display: none">Cancelar</button>
+                <button id="guardarPassword" class="btn btn-success btn-lg" type="button" onclick="guardarPassword()"
+                    style="display: none">Guardar</button>
+                <button id="cancelarPassword" class="btn btn-warning btn-lg" type="button" onclick="display()"
+                    style="display: none">Cancelar</button>
+            </div>
+            <div class=" d-grid gap-2 d-md-block" style="padding-top: 20px;">
+                <a href="./index.html">
+                    <button class="btn btn-secondary btn-lg" type="button">Voltar</button>
+                </a>
+            </div>
         </div>
-
+    </div>
     </div>
     <script src="./Scripts/jquery-3.5.1.min.js"></script>
     <script src="./Scripts/bootstrap.min.js"></script>
@@ -59,115 +131,118 @@
             amplify.store('CurrentUser', null)
             go_to('./index.html')
         }
-        function go_to(id) {
-            window.location.href = './Socio.html'
+        function go_to(hr) {
+            window.location.href = hr
         }
-        function getid() {
-            console.log(window.location.href)
-            var sPageURL = window.location.href.toString();
-            for (i in sPageURL) {
-                if (sPageURL[i] === '=') {
-                    return String(sPageURL.slice((parseInt(i) + 1)))
-                }
-            }
+        function editar() {
+            $('#email').show()
+            $('#estabelecimentoForm').show()
+            $('#morada').show()
+            $('#contacto').show()
+            $('#nif').show()
+            $('#userEmail').hide()
+            $('#userEst').hide()
+            $('#userMor').hide()
+            $('#userCont').hide()
+            $('#userNIF').hide()
+            $('#userTitle').hide()
+            $('#nome').show()
+            $('#guardar').show()
+            $('#cancelar').show()
+            $('#editar').hide()
+            $('#alterarPassword').hide()
         }
-        function error(obj) {
-            if (typeof (obj) == "string") {
-                cl = document.getElementById(obj + "Error")
-            }
-            else {
-                cl = document.getElementById(obj.id + "Error")
-            }
-            cl.classList.add("d-block")
-            cl.classList.remove("d-none")
+        function display() {
+            $('#email').hide()
+            $('#estabelecimentoForm').hide()
+            $('#morada').hide()
+            $('#contacto').hide()
+            $('#nif').hide()
+            $('#passwordOld').hide()
+            $('#passwordNew').hide()
+            $('#userEmail').show()
+            $('#userEst').show()
+            $('#userMor').show()
+            $('#userCont').show()
+            $('#userNIF').show()
+            $('#userTitle').show()
+            $('#nome').hide()
+            $('#guardar').hide()
+            $('#cancelar').hide()
+            $('#editar').show()
+            $('#alterarPassword').show()
+            $('#passwordOld').hide()
+            $('#passwordNew').hide()
+            $('#guardarPassword').hide()
+            $('#cancelarPassword').hide()
         }
-
-        function validate() {
-
-            var retVal = true;
-            var name = document.getElementById("nome");
-            if (name.value.trim().length < 1) {
-                retVal = false;
-                error(name)
-            }
-            var descricao = document.getElementById("descricao");
-            if (descricao.value.split(" ").length < 1) {
-                retVal = false;
-                error(descricao);
-            }
-            console.log($('#ing'))
-            var ing = document.getElementById("ing");
-            if (ing.value.split(" ").length < 1) {
-                retVal = false;
-                error(ing);
-            }
-
-
-            var despacho = document.getElementById("despacho");
-            if (despacho.value.split(" ").length < 1) {
-                retVal = false;
-                error(despacho);
-            }
-
-            console.log(retVal)
-            return retVal
+        function alterarPassword() {
+            $('#editar').hide()
+            $('#alterarPassword').hide()
+            $('#passwordOld').show()
+            $('#passwordNew').show()
+            $('#guardarPassword').show()
+            $('#cancelarPassword').show()
         }
-        function addpedido() {
-
-
-
-            email = getid()
+        function guardar() {
+            if ($('#nome').val().length > 0)
+                currUser.name = $('#nome').val()
+            if ($('#email').val().length > 0)
+                currUser.email = $('#email').val()
+            if ($('#estabelecimentoForm').val().length > 0)
+                currUser.est = $('#estabelecimentoForm').val()
+            if ($('#morada').val().length > 0)
+                currUser.morada = $('#morada').val()
+            if ($('#contacto').val().length > 0)
+                currUser.contacto = $('#contacto').val()
+            if ($('#nif').val().length > 0)
+                currUser.nif = $('#nif').val()
+            console.log(currUser)
             users = amplify.store('users')
-            for (i in users) {
-                if (users[i].email == email) {
-                    vendedor = users[i]
-                }
+            users[currUser.p] = currUser
+            amplify.store('users', users)
+            refresh()
+            display()
+        }
+        function guardarPassword() {
+            if ($('#pwOld').val() == currUser.password && $('#pwNew').val().length > 0) {
+                currUser.password = $('#pwNew').val()
             }
-            // Encotrar os dados do vendedor
-            if (amplify.store('pedidos') == undefined) {
-                lst = []
+            console.log(currUser)
+            users = amplify.store('users')
+            users[currUser.p] = currUser
+            amplify.store('users', users)
+            display()
+        }
+        function refresh() {
+            if (currUser.status == "Socio") {
+                tipo = "Sócio"
+                $('#estabelecimento').show()
+                document.getElementById("userEst").innerHTML = currUser.est;
+                document.getElementById("estabelecimentoForm").placeholder = currUser.est;
             }
-            else {
-                lst = amplify.store('pedidos')
-            }
-
-            pedido = {
-                'emailvendedor': email,
-                'status': 'disponivel',
-                'contacto': vendedor.contacto,
-                'p': lst.length,
-                'establecimento': vendedor.est,
-                'nome_p': $('#nome').val(),
-                'descricao': $('#descricao').val(),
-                'ingredientes': $('#ing').val(),
-                'rdespacho': $('#despacho').val(),
-                'datas': [$('#datac').val(), $('#datad').val()],
-                'horas': [$('#horac').val(), $('#horad').val()],
-                'precos': [$('#po').val(), $('#po').val()]
-            }
-            console.log(pedido)
-            lst.push(pedido)
-            amplify.store('pedidos', lst)
-            //definir pedido na lista de pedidos
+            document.getElementById("userType").innerHTML = "Conta de " + tipo;
+            document.getElementById("userTitle").innerHTML = currUser.name;
+            document.getElementById("nome").placeholder = currUser.name;
+            document.getElementById("userEmail").innerHTML = currUser.email;
+            document.getElementById("email").placeholder = currUser.email;
+            document.getElementById("userMor").innerHTML = currUser.morada;
+            document.getElementById("morada").placeholder = currUser.morada;
+            document.getElementById("userCont").innerHTML = currUser.contacto;
+            document.getElementById("contacto").placeholder = currUser.contacto;
+            document.getElementById("userNIF").innerHTML = currUser.nif;
+            document.getElementById("nif").placeholder = currUser.nif;
         }
         $().ready(function () {
             // Verificar se existe login
             currUser = amplify.store('CurrentUser')
-            if (currUser == undefined || currUser.status != "Socio")
+            if (currUser == undefined)
                 go_to("./index.html")
-            // Alterar nome do Estabelecimento
-            document.getElementById("estabelecimento").innerHTML = currUser.est;
-
-            $('#criar_pedido').click(function () {
-                console.log($('#ing').val())
-                console.log($('#despacho').val())
-                if (validate()) {
-                    addpedido()
-                    alert('Pedido publicado com sucesso')
-                    go_to(getid())
-                }
-            })
-
+            // Obter id do utilizador
+            id = currUser.p
+            // preencher dados do utilizador
+            tipo = "Cliente"
+            refresh()
         })
 
     </script>

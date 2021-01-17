@@ -45,11 +45,21 @@
     </nav>
     <!-- Formulário -->
     <div class="container">
-        <div class="col-md-6 col-sm-12" style="padding-top: 15px;">
+        <div class="col-sm-12" style="padding-top: 15px;">
             <h1 id="estabelecimento" style="font-weight: bolder"></h1>
         </div>
         <h2 class="border-bottom py-2 mb-2">Publicar produto</h2>
         <form name="criar conta">
+            <div class="row form-group" style="padding-left:15px;">
+                <div class="col-md-10">
+                    <label class="custom-file-label col-md-6 col-form-label" for="customFileLang">Selecionar
+                        Imagem</label>
+                    <input type="file" class="custom-file-input" id="image">
+                    <div class="d-none text-danger col-form-label" id="imageError">
+                        <i class="fa fa-exclamation-triangle"></i> Por favor insira uma imagem.
+                    </div>
+                </div>
+            </div>
             <div class="row form-group">
                 <label for="Nome" class="col-md-2 col-form-label">Refeição</label>
                 <div class="col-md-10">
@@ -127,8 +137,8 @@
             amplify.store('CurrentUser', null)
             go_to('./index.html')
         }
-        function go_to(id) {
-            window.location.href = './Socio.html'
+        function go_to(hr) {
+            window.location.href = hr
         }
         function getid() {
             console.log(window.location.href)
@@ -151,8 +161,12 @@
         }
 
         function validate() {
-
             var retVal = true;
+            var image = document.getElementById("image");
+            if (image.value.trim().length < 1) {
+                retVal = false;
+                error(image)
+            }
             var name = document.getElementById("nome");
             if (name.value.trim().length < 1) {
                 retVal = false;
@@ -196,18 +210,21 @@
             }
 
             user = amplify.store('CurrentUser')
-
+            imgPath = $('#image').val().split("\\")
+            imgPath = "images/" + imgPath[imgPath.length - 1]
             pedido = {
-                'userID': user.p,
+                'partnerID': user.p,
                 'status': 'disponivel',
                 'pedidoID': lst.length,
                 'nome_p': $('#nome').val(),
                 'descricao': $('#descricao').val(),
                 'ingredientes': $('#ing').val(),
                 'rdespacho': $('#despacho').val(),
+                'imgpath': imgPath,
                 'datas': [$('#datac').val(), $('#datad').val()],
                 'horas': [$('#horac').val(), $('#horad').val()],
-                'precos': [$('#po').val(), $('#po').val()]
+                'precos': [$('#po').val(), $('#pa').val()],
+                'comprador': -1
             }
             console.log(pedido)
             lst.push(pedido)
@@ -227,7 +244,7 @@
                 if (validate()) {
                     addpedido()
                     alert('Pedido publicado com sucesso')
-                    go_to(getid())
+                    go_to("./Socio.html")
                 }
             })
 
