@@ -20,10 +20,10 @@
 <body>
     <!-- Cabeçalho -->
     <nav class="navbar navbar-expand navbar-dark" style="background-color:rgb(51, 65, 29);">
-        <a class="navbar-brand" href="./Socio.html">
+        <a class="navbar-brand" href="./Cliente.html">
             <img src="rec/CircularLink_logo.svg" alt="" width="45" height="45" />
         </a>
-        <a class="navbar-brand" href="./Socio.html">CircularLink</a>
+        <a class="navbar-brand" href="./Cliente.html">CircularLink</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02"
             aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -49,6 +49,12 @@
             <h1 class="text-danger"><i class="fa fa-warning ">Anúncio não encontrado.</i></h1>
         </div>
         <div id="anuncio" style="display: none;">
+            <!-- Estabelecimento -->
+            <div class="row">
+                <div class="col-lg-7" style="padding: 10;">
+                    <h1 style="margin-top:30px;color: forestgreen;"><b id="anuncioEst"></b></h1>
+                </div>
+            </div>
             <!-- Titulo + Imagem -->
             <div class="row">
                 <div class="col-lg-7" style="padding: 10;">
@@ -87,74 +93,42 @@
                     <h4 id="anuncioDataDesp" class="p-heading p-large font-weight-bold"></h4>
                 </div>
             </div>
+            <!-- Morada -->
             <div class="row" style=" margin-top:20px;">
-                <!-- Preço Original -->
-                <div class="col-lg-3">
-                    <h3 style="color: forestgreen;"><b>Preço Original</b></h3>
+                <div class="col-lg-12" style="padding: 10;">
+                    <h3 style="color: forestgreen;"><b>Morada</b></h3>
+                    <h4 id="anuncioMor" class="p-heading p-large font-weight-bold"></h4>
                 </div>
-                <div class="col-lg-1">
-                    <h3 id="anuncioPreOri" class="p-heading p-large font-weight-bold"></h3>
+            </div>
+            <!-- Preço Atual -->
+            <div class="row" style=" margin-top:20px;">
+                <div class="col-lg-1" style="padding: 10;">
+                    <h3 style="color: forestgreen;"><b>Preço</b></h3>
                 </div>
-                <!-- Preço Atual -->
-                <div class="col-lg-3" style="padding: 10;">
-                    <h3 style="color: forestgreen;"><b>Preço de Venda</b></h3>
-                </div>
-                <div class="col-lg-1">
+                <div class="col-lg-6">
                     <h3 id="anuncioPreVen" class="p-heading p-large font-weight-bold"></h3>
                 </div>
-            </div>
-            <!-- Estado -->
-            <div class="row" style=" margin-top:20px;">
+                <div class="col-lg-2" style="padding: 10;">
+                    <h3 style="color: forestgreen;"><b>Contacto</b></h3>
+                </div>
                 <div class="col-lg-2">
-                    <h3 style="color: forestgreen;"><b>Estado</b></h3>
-                </div>
-                <div class="col-lg-4">
-                    <h3 id="anuncioStatus" class="p-heading p-large font-weight-bold"></h3>
-                </div>
-                <div class="col-lg-6" id="anuncioEdit">
-                    <button class="btn btn-primary" type="button" onclick="changeConcluido()">Marcar como
-                        Concluído</button>
-                    <button class=" btn btn-danger" type="button" onclick="changeExpirado()">Marcar como
-                        Expirado</button>
-                </div>
-            </div>
-            <!-- Reserva -->
-            <div id="dadosComprador" style="margin-top:20px;display: none;">
-                <div class="row">
-                    <div class="col-lg-auto" style="padding: 10;">
-                        <h2 style="color: rgb(255, 100, 70);"><b>Dados do Comprador</b></h2>
-                    </div>
-                </div>
-                <div class="row">
-                    <!-- Nome -->
-                    <div class="col-lg-auto" style="padding: 10;">
-                        <h4 style="color: rgb(255, 100, 70);"><b>Nome</b></h4>
-                    </div>
-                    <div class="col-lg-auto" style="padding: 10;">
-                        <h4 id="compradorNome" class="p-heading p-large font-weight-bold"></h4>
-                    </div>
-                    <!-- NIF -->
-                    <div class="col-lg-auto" style="padding: 10;">
-                        <h4 style="color: rgb(255, 100, 70);"><b>NIF</b></h4>
-                    </div>
-                    <div class="col-lg-auto">
-                        <h4 id="compradorNIF" class="p-heading p-large font-weight-bold"></h4>
-                    </div>
-                    <!-- Contacto -->
-                    <div class="col-lg-auto" style="padding: 10;">
-                        <h4 style="color: rgb(255, 100, 70);"><b>Contacto</b></h4>
-                    </div>
-                    <div class="col-lg-auto">
-                        <h4 id="compradorCont" class="p-heading p-large font-weight-bold"></h4>
-                    </div>
+                    <h3 id="anuncioCont" class="p-heading p-large font-weight-bold"></h3>
                 </div>
             </div>
 
             <!-- Botões -->
-            <div class=" d-grid gap-2 d-md-block" style="padding-top: 20px;">
-                <a href="./Pedidos.html">
-                    <button class="btn btn-secondary btn-lg" type="button">Voltar</button>
-                </a>
+            <div class="row" style="margin-top:10px;">
+                <div class="col-lg-6" style="margin-top:10px;">
+                    <a href="./Cliente.html">
+                        <button class="btn btn-secondary btn-lg" type="button">Voltar</button>
+                    </a>
+                </div>
+                <div class="col-lg-6" id="btnCompra" style="margin-top:10px;">
+                    <button class="btn btn-primary btn-lg" type="button" onclick="encomendar()">
+                        Encomendar</button>
+                    <button class=" btn btn-success btn-lg" type="button" onclick="takeaway()">
+                        Levantar no Restaurante</button>
+                </div>
             </div>
         </div>
     </div>
@@ -171,11 +145,11 @@
         function go_to(hr) {
             window.location.href = hr
         }
-        function changeConcluido() {
-            changeStatus("concluido")
+        function encomendar() {
+
         }
-        function changeExpirado() {
-            changeStatus("expirado")
+        function takeaway() {
+
         }
         function changeStatus(status) {
             pedidos[id].status = status
@@ -185,14 +159,16 @@
         $().ready(function () {
             // Verificar se existe login
             currUser = amplify.store('CurrentUser')
-            if (currUser == undefined || currUser.status != "Socio")
+            if (currUser == undefined || currUser.status != "Cliente")
                 go_to("./index.html")
-
+            users = amplify.store('users')
             // Obter id do anúncio
             id = window.location.href.toString().split("=")[1]
             pedidos = amplify.store("pedidos")
-            // Verificar se anúncio existe e pertence ao utilizador atual
-            if (id != undefined && pedidos[id] != undefined && pedidos[id].partnerID == currUser.p) {
+            // Verificar se anúncio existe e pode ser visualizado
+            if (id != undefined && pedidos[id] != undefined && pedidos[id].status == "disponivel" || pedidos[id].comprador == currUser.p) {
+                document.getElementById("anuncioEst").innerHTML = users[pedidos[id].partnerID].est;
+                document.getElementById("anuncioCont").innerHTML = users[pedidos[id].partnerID].contacto;
                 document.getElementById("anuncioTitle").innerHTML = pedidos[id].nome_p;
                 document.getElementById("anuncioDesc").innerHTML = pedidos[id].descricao;
                 document.getElementById("anuncioImg").src = pedidos[id].imgpath;
@@ -200,8 +176,9 @@
                 document.getElementById("anuncioRaz").innerHTML = pedidos[id].rdespacho;
                 document.getElementById("anuncioDataCon").innerHTML = pedidos[id].datas[0] + " " + pedidos[id].horas[0];
                 document.getElementById("anuncioDataDesp").innerHTML = pedidos[id].datas[1] + " " + pedidos[id].horas[1];
-                document.getElementById("anuncioPreOri").innerHTML = pedidos[id].precos[0] + "€";
+                //document.getElementById("anuncioPreOri").innerHTML = pedidos[id].precos[0] + "€";
                 document.getElementById("anuncioPreVen").innerHTML = pedidos[id].precos[1] + "€";
+                document.getElementById("anuncioMor").innerHTML = users[pedidos[id].partnerID].morada;
                 status = ""
                 switch (pedidos[id].status) {
                     case "disponivel":
@@ -223,8 +200,6 @@
                     default:
                         break
                 }
-                document.getElementById("anuncioStatus").style = color;
-                document.getElementById("anuncioStatus").innerHTML = status;
                 if (status == "Expirado" || status == "Concluído")
                     $('#anuncioEdit').hide()
                 if (status != "Disponível" && pedidos[id].comprador >= 0) {
@@ -233,7 +208,7 @@
                     document.getElementById("compradorNome").innerHTML = users[pedidos[id].comprador].name;
                     document.getElementById("compradorNIF").innerHTML = users[pedidos[id].comprador].nif;
                     document.getElementById("compradorCont").innerHTML = users[pedidos[id].comprador].contacto;
-                    $('#dadosComprador').show()
+                    //$('#dadosComprador').show()
                 }
 
                 $('#anuncio').show()
