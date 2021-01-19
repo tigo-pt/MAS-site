@@ -21,10 +21,10 @@
 
     <!-- Cabeçalho -->
     <nav class="navbar navbar-expand navbar-dark" style="background-color:rgb(51, 65, 29);">
-        <a class="navbar-brand" href="">
+        <a class="navbar-brand" href="./Cliente.html">
             <img src="rec/CircularLink_logo.svg" alt="" width="45" height="45" />
         </a>
-        <a class="navbar-brand" href="">CircularLink</a>
+        <a class="navbar-brand" href="./Cliente.html">CircularLink</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02"
             aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -44,48 +44,32 @@
             </ul>
         </div>
     </nav>
-
-    <div class="container">
-        <div class="col-sm-12" style="padding-top: 15px;">
-            <h1 id="estabelecimento" style="font-weight: bolder"></h1>
-        </div>
-        <div class="row mt-3" style="text-align:center">
-            <div class="col-md-6 col-sm-12 mt-3" id="publicar_produto">
-                <div class="card btn" style="border-color:green">
-                    <div class="card-img">
-                        <img src="frutasv3.png" class="m-auto" style="display:block" />
+    <!-- Pedidos Disponíveis -->
+    <div class="container" style="padding-top: 10px;">
+        <div class="d-grid gap-2 col-12 mx-auto" id="anuncios">
+            <!--
+            <div class="card mb-3">
+                <div class="row no-gutters">
+                    <div class="col-md-10">
+                        <div class="card-body">
+                            <h4 class="card-title" style="color: forestgreen"><b>Pedido #ID</b></h4>
+                            <h5 class="card-text">Refeição</h5>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <h2>Publicar produto</h2>
+                    <div class="card-body col-md-2">
+                        <h4 class="card-title" style="color: forestgreen"><b>Preço</b></h4>
                     </div>
+                    <a href="#" class="stretched-link"></a>
                 </div>
             </div>
-            <div class="col-md-6 col-sm-12 mt-3" id="ver_pedidos">
-                <div class="card btn" style="border-color:orangered">
-                    <div class="card-img">
-                        <img src="to-dov3.png" class="m-auto" style="display:block" />
-                    </div>
-                    <div class="card-body">
-                        <h2>Ver pedidos</h2>
-                    </div>
-                </div>
-            </div>
+            -->
         </div>
-        <!--
-        <div class="row mt-3" style="text-align:center">
-            <div class="col-md-6 col-sm-12 m-auto btn" id="estatisticas" title="Não implementado">
-                <div class="card" style="border-color:deepskyblue">
-                    <div class="card-img">
-                        <img src="statsv3.png" class="m-auto" style="display:block" />
-                    </div>
-                    <div class="card-body">
-                        <h2>Ver estatísticas</h2>
-                    </div>
-                </div>
-            </div>
+        <div id="aviso" class="mt-2 col-md-12" style="display: none;">
+            <h1 class="text-danger"><i class="fa fa-warning ">Ainda não fez nenhum pedido.</i></h1>
         </div>
-        -->
     </div>
+
+
     <script src="./Scripts/jquery-3.5.1.min.js"></script>
     <script src="./Scripts/bootstrap.min.js"></script>
     <script src="./Scripts/knockout-3.5.1.js"></script>
@@ -99,18 +83,48 @@
         function go_to(hr) {
             window.location.href = hr
         }
+        function verifyPedidos() {
+            pedidos = amplify.store("pedidos")
+            console.log(pedidos)
+            idx = [] // lista com indíces de pedidos
+            for (i in pedidos)
+                if (pedidos[pedidos.length - i - 1].comprador == currUser.p)
+                    idx.push(pedidos.length - i - 1)
+            if (idx.length < 1)
+                return false
+            listPedidos(idx)
+            return true
+        }
+        function listPedidos(idx) {
+            for (i in idx) {
+                p = pedidos[idx[i]]
+                console.log(p.imgpath)
+                document.getElementById("anuncios").innerHTML += generateCard(p)
+            }
+        }
+        function generateCard(pedido) {
+            users = amplify.store('users')
+            return "<div class=\"card mb-3\"><div class=\"row no-gutters\"> \
+                <div class=\"col-md-10\"><div class=\"card-body\"> \
+                <h4 class=\"card-title\" style=\"color: forestgreen\"><b> Pedido#" + pedido.pedidoID + "</b></h4> \
+                <h5 class=\"card-text\">" + pedido.nome_p + "</h5></div></div> \
+                <div class=\"card-body col-md-2\"> \
+                <h4 class=\"card-title\" style=\"color: forestgreen\"><b>" + pedido.precos[1] + "€ </b></h4> \
+                </div><a href=\"VerPedido.html?id=" + pedido.pedidoID +
+                "\" class=\"stretched-link\"></a></div></div>"
+
+        }
         $().ready(function () {
             // Verificar se existe sessão iniciada
             currUser = amplify.store('CurrentUser')
-            if (currUser == undefined || currUser.status != "Socio")
+            if (currUser == undefined || currUser.status != "Cliente")
                 go_to("./index.html")
 
-            document.getElementById("estabelecimento").innerHTML = currUser.est;
 
             console.log(amplify.store('users'))
             console.log(amplify.store('pedidos'))
             console.log(amplify.store('CurrentUser'))
-
+            verifyPedidos()
             $('#publicar_produto').click(function () {
                 go_to('./Publicar.html')
             })

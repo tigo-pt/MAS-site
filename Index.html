@@ -70,6 +70,8 @@
             if (currUser != undefined) {
                 go_to(currUser.status)
             }
+            //amplify.store('users', null)
+            //amplify.store('pedidos', null)
             // Criar uma lista de utilizadores caso não exista
             if (amplify.store('users') == undefined) {
                 Carlos = {
@@ -88,16 +90,16 @@
                     'password': 'beta',
                     'email': 'beta@a.pt',
                     'status': 'Socio',
-                    'morada': 'Estrada Nacional, 3800-233 Aveiro',
-                    'nif': '461781899',
+                    'morada': 'Estrada Nacional 109, 3800-233 Aveiro',
+                    'nif': '551721899',
                     'contacto': '923991960',
                     'p': 1,
-                    'est': 'Bom Gosto'
+                    'est': 'Restaurante Bom Gosto'
                 }
                 Test = {
-                    'name': 'Cliente de Teste',
-                    'password': 'user',
-                    'email': 'user@user.com',
+                    'name': 'Nome do Cliente de Teste',
+                    'password': 'cliente',
+                    'email': 'cliente@cliente.com',
                     'status': 'Cliente',
                     'morada': 'A minha morada de casa',
                     'nif': 10000000 + Math.floor(Math.random() * 900000000),
@@ -106,7 +108,7 @@
                     'est': ''
                 }
                 Test2 = {
-                    'name': 'Sócio de Teste',
+                    'name': 'Nome do Sócio de Teste',
                     'password': 'partner',
                     'email': 'partner@partner.com',
                     'status': 'Socio',
@@ -118,6 +120,100 @@
                 }
                 users = [Carlos, Beta, Test, Test2]
                 amplify.store('users', users)
+            }
+            if (amplify.store('pedidos') == undefined) {
+                p1 = {
+                    'partnerID': 1,
+                    'status': "expirado",
+                    'pedidoID': 0,
+                    'nome_p': "Lasanha à Bolonhesa",
+                    'descricao': "A lasanha é uma receita tipicamente italiana, \
+                    feita com carne e molho de tomate entre massa.",
+                    'ingredientes': "Carne de vitela; Molho Bechamel; Queijo Mozzarella; Polpa de tomate; Folhas de lasanha.",
+                    'rdespacho': "Refeição não vendida à hora de almoço.",
+                    'imgpath': "images/lasanha.png",
+                    'datas': ["2021-01-09", "2021-01-09"],
+                    'horas': ["12:00", "14:57"],
+                    'precos': ["8.50", "4.00"],
+                    'comprador': -1
+                }
+                p2 = {
+                    'partnerID': 1,
+                    'status': "concluido",
+                    'pedidoID': 1,
+                    'nome_p': "Moelas em molho",
+                    'descricao': "Moelas cozidas com um molho à base de tomate e vinho branco. Refeição inclui arroz.",
+                    'ingredientes': "Moelas; Vinho branco; Molho de Tomate; Condimentos variados.",
+                    'rdespacho': "Cliente optou por outra refeição após concepção.",
+                    'imgpath': "images/moelas.jpg",
+                    'datas': ["2021-01-09", "2021-01-09"],
+                    'horas': ["20:00", "21:10"],
+                    'precos': ["6.80", "3.00"],
+                    'comprador': 0,
+                    'rate': 5,
+                    'rateDesc': "Refeição ainda muito bem conservada."
+                }
+                p3 = {
+                    'partnerID': 1,
+                    'status': "concluido",
+                    'pedidoID': 2,
+                    'nome_p': "Bacalhau à Brás",
+                    'descricao': "O Bacalhau à Brás é uma das receitas mais apreciadas pelos portugueses.",
+                    'ingredientes': "Bacalhau; Batata Frita palha; Ovos.",
+                    'rdespacho': "Refeição não foi vendida e já se encontra fria para venda normal.",
+                    'imgpath': "images/bras.jpg",
+                    'datas': ["2021-01-11", "2021-01-11"],
+                    'horas': ["12:40", "18:10"],
+                    'precos': ["6.00", "3.50"],
+                    'comprador': 2,
+                    'rate': 4,
+                    'rateDesc': ""
+                }
+                p4 = {
+                    'partnerID': 1,
+                    'status': "reservado",
+                    'pedidoID': 3,
+                    'nome_p': "Lasanha à Bolonhesa",
+                    'descricao': "A lasanha é uma receita tipicamente italiana, \
+                    feita com carne e molho de tomate entre massa.",
+                    'ingredientes': "Carne de vitela; Molho Bechamel; Queijo Mozzarella; Polpa de tomate; Folhas de lasanha.",
+                    'rdespacho': "Refeição confecionada em demasia.",
+                    'imgpath': "images/lasanha.png",
+                    'datas': ["2021-01-13", "2021-01-13"],
+                    'horas': ["14:40", "15:10"],
+                    'precos': ["8.50", "5.50"],
+                    'comprador': 0
+                }
+                p5 = {
+                    'partnerID': 1,
+                    'status': "disponivel",
+                    'pedidoID': 4,
+                    'nome_p': "Arroz de pato",
+                    'descricao': "O nosso arroz de pato estaladiço é ótimo em cada ocasião!",
+                    'ingredientes': "Peito de pato; Arroz; Chouriço de carne; Toucinho.",
+                    'rdespacho': "Refeição confecionada em demasia e não vendida.",
+                    'imgpath': "images/pato.jpg",
+                    'datas': ["2021-01-20", "2021-01-20"],
+                    'horas': ["12:30", "14:00"],
+                    'precos': ["7.50", "4.00"],
+                    'comprador': -1
+                }
+                p6 = {
+                    'partnerID': 1,
+                    'status': "disponivel",
+                    'pedidoID': 5,
+                    'nome_p': "Tarte de amêndoa",
+                    'descricao': "Fatia de uma tarte de amêndoa.",
+                    'ingredientes': "Amêndoa; Farinha; Açúcar; Ovo; Manteiga",
+                    'rdespacho': "Não foi completamente vendida durante o dia de confecção.",
+                    'imgpath': "images/tarte.jpeg",
+                    'datas': ["2021-01-19", "2021-01-20"],
+                    'horas': ["11:00", "12:00"],
+                    'precos': ["2.50", "1.20"],
+                    'comprador': -1
+                }
+                pedidos = [p1, p2, p3, p4, p5, p6]
+                amplify.store('pedidos', pedidos)
             }
             users = amplify.store('users')
             console.log(users)

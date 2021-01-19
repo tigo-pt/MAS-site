@@ -44,17 +44,21 @@
             </ul>
         </div>
     </nav>
-    <!-- Pedidos Criados -->
-    <div class="container">
-        <div class="col-sm-12" style="padding-top: 15px;">
-            <h1 id="estabelecimento" style="font-weight: bolder"></h1>
-        </div>
+    <!-- Pedidos Disponíveis -->
+    <div class="container" style="padding-top: 10px;">
+
         <div class="d-grid gap-2 col-12 mx-auto" style="padding-top: 10px;" id="anuncios">
+            <div class=" card mb-2">
+
+                <h5 class=" card-header font-weight-bold">Ver pedidos anteriores<a class="stretched-link"
+                        href="./PedidosAnteriores.html"></a></h5>
+
+            </div>
             <!--
             <div class="card mb-3">
                 <div class="row no-gutters">
                     <div class="col-md-3">
-                        <img src="rec/buildings.png" class="card-img" style="max-width: 250px;">
+                        <img src="rec/buildings.png" class="card-img img-fluid" style="max-width: 250px;">
                     </div>
                     <div class="col-md-9">
                         <div class="card-body">
@@ -93,8 +97,8 @@
             console.log(pedidos)
             idx = [] // lista com indíces de pedidos
             for (i in pedidos)
-                if (pedidos[i].status == "disponivel")
-                    idx.push(i)
+                if (pedidos[pedidos.length - i - 1].status == "disponivel")
+                    idx.push(pedidos.length - i - 1)
             if (idx.length < 1)
                 return false
             listPedidos(idx)
@@ -111,7 +115,7 @@
             users = amplify.store('users')
             return "<div class=\"card mb-3\"> \
                 <div class=\"row no-gutters\"><div class=\"col-md-3\"> \
-                <img src=\"" + pedido.imgpath + "\" class=\"card-img\" style=\"max-width: 250px; \"></div> \
+                <img src=\"" + pedido.imgpath + "\" class=\"card-img img-fluid\" style=\"max-width: 250px; \"></div> \
                 <div class=\"col-md-9\"><div class=\"card-body\"> \
                 <h3 class=\"card-title\" style=\"color: forestgreen\"> \
                 <b>" + users[pedido.partnerID].est + "</b></h3> \

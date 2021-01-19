@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -149,7 +150,27 @@
                     </div>
                 </div>
             </div>
-
+            <!-- Rating -->
+            <div id="rating" class="row" style="margin-top:20px; display: none;">
+                <div class="col-lg-2" style="padding: 10;">
+                    <h3 style="color: forestgreen;"><b>Avaliação</b></h3>
+                </div>
+                <div class="col-lg-6" style="margin-top:0px;">
+                    <span class="fa fa-star" id="sr1" style="color:black; font-size: xx-large;"></span>
+                    <span class="fa fa-star" id="sr2" style="color:black; font-size: xx-large;"></span>
+                    <span class="fa fa-star" id="sr3" style="color:black; font-size: xx-large;"></span>
+                    <span class="fa fa-star" id="sr4" style="color:black; font-size: xx-large;"></span>
+                    <span class="fa fa-star" id="sr5" style="color:black; font-size: xx-large;"></span>
+                </div>
+                <div class="col-lg-6" style="margin-top:10px;">
+                    <h5 id="ratingDesc" class="p-heading p-large"></h5>
+                </div>
+            </div>
+            <div id="ratingAviso" class="row" style="margin-top:20px; display: none;">
+                <div class="col-lg-6" style="margin-top:10px;">
+                    <h5 id="ratingDesc" class="p-heading p-large"><i>Ainda não foi publicada uma avaliação.</i></h5>
+                </div>
+            </div>
             <!-- Botões -->
             <div class=" d-grid gap-2 d-md-block" style="padding-top: 20px;">
                 <a href="./Pedidos.html">
@@ -235,7 +256,22 @@
                     document.getElementById("compradorCont").innerHTML = users[pedidos[id].comprador].contacto;
                     $('#dadosComprador').show()
                 }
-
+                if (pedidos[id].comprador != -1)
+                    $('#ratingAviso').hide()
+                // Verificar avaliação
+                if (pedidos[id].rate != undefined) {
+                    $('#rating').show()
+                    $('#ratingAviso').hide()
+                    if (pedidos[id].rateDesc.length > 0)
+                        document.getElementById("ratingDesc").innerHTML = pedidos[id].rateDesc;
+                    else
+                        document.getElementById("ratingDesc").innerHTML = "<i>Não foi dada nenhuma descrição para a avaliação.</i>";
+                    i = 1
+                    while (i <= pedidos[id].rate) {
+                        document.getElementById("sr" + i).style = "color: orange; font-size: xx-large;";
+                        i++;
+                    }
+                }
                 $('#anuncio').show()
             } else
                 $('#aviso').show()

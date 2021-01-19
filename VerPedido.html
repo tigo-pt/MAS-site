@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -100,7 +101,15 @@
                     <h4 id="anuncioMor" class="p-heading p-large font-weight-bold"></h4>
                 </div>
             </div>
-            <!-- Preço Atual -->
+            <div class="row" style=" margin-top:20px;">
+                <div class="col-lg-2">
+                    <h3 style="color: forestgreen;"><b>Estado</b></h3>
+                </div>
+                <div class="col-lg-4">
+                    <h3 id="anuncioStatus" class="p-heading p-large font-weight-bold"></h3>
+                </div>
+            </div>
+            <!-- Preço e Contacto -->
             <div class="row" style=" margin-top:20px;">
                 <div class="col-lg-1" style="padding: 10;">
                     <h3 style="color: forestgreen;"><b>Preço</b></h3>
@@ -116,22 +125,66 @@
                 </div>
             </div>
 
+            <!-- Rating Form-->
+            <div id="ratingForm" class="row" style="margin-top:20px; display: none;">
+                <div class="col-lg-2" style="padding: 10;">
+                    <h3 style="color: forestgreen;"><b>Avaliação</b></h3>
+                </div>
+                <div class="col-lg-6" style="margin-top:0px;">
+                    <a class="fa fa-star" id="s1" onclick="changeRating(1)"
+                        style="color:black; font-size: xx-large;"></a>
+                    <a class="fa fa-star" id="s2" onclick="changeRating(2)"
+                        style="color:black; font-size: xx-large;"></a>
+                    <a class="fa fa-star" id="s3" onclick="changeRating(3)"
+                        style="color:black; font-size: xx-large;"></a>
+                    <a class="fa fa-star" id="s4" onclick="changeRating(4)"
+                        style="color:black; font-size: xx-large;"></a>
+                    <a class="fa fa-star" id="s5" onclick="changeRating(5)"
+                        style="color:black; font-size: xx-large;"></a>
+                </div>
+                <div class="col-lg-6" style="margin-top:10px;">
+                    <textarea name="descricao" id="ratingDescForm" class="form-control"
+                        placeholder="Descrição da Avaliação" rows="2"></textarea>
+                </div>
+                <div class="col-lg-4" id="btnCompra" style="margin-top:24px;">
+                    <button class="btn btn-success btn-lg" type="button" onclick="guardarRating()">
+                        Guardar Avaliação</button>
+                </div>
+            </div>
+            <!-- Rating -->
+            <div id="rating" class="row" style="margin-top:20px; display: none;">
+                <div class="col-lg-2" style="padding: 10;">
+                    <h3 style="color: forestgreen;"><b>Avaliação</b></h3>
+                </div>
+                <div class="col-lg-6" style="margin-top:0px;">
+                    <span class="fa fa-star" id="sr1" style="color:black; font-size: xx-large;"></span>
+                    <span class="fa fa-star" id="sr2" style="color:black; font-size: xx-large;"></span>
+                    <span class="fa fa-star" id="sr3" style="color:black; font-size: xx-large;"></span>
+                    <span class="fa fa-star" id="sr4" style="color:black; font-size: xx-large;"></span>
+                    <span class="fa fa-star" id="sr5" style="color:black; font-size: xx-large;"></span>
+                </div>
+                <div class="col-lg-6" style="margin-top:10px;">
+                    <h5 id="ratingDesc" class="p-heading p-large"></h5>
+                </div>
+            </div>
             <!-- Botões -->
             <div class="row" style="margin-top:10px;">
                 <div class="col-lg-6" style="margin-top:10px;">
-                    <a href="./Cliente.html">
-                        <button class="btn btn-secondary btn-lg" type="button">Voltar</button>
-                    </a>
+
+                    <button class="btn btn-secondary btn-lg" type="button"
+                        onclick="window.history.back()">Voltar</button>
+
                 </div>
-                <div class="col-lg-6" id="btnCompra" style="margin-top:10px;">
-                    <button class="btn btn-primary btn-lg" type="button" onclick="encomendar()">
+                <div class="col-lg-6" style="margin-top:10px;">
+                    <button id="btnEnc" class="btn btn-primary btn-lg" type="button" onclick="encomendar()">
                         Encomendar</button>
-                    <button class=" btn btn-success btn-lg" type="button" onclick="takeaway()">
+                    <button id="btnTake" class=" btn btn-success btn-lg" type="button" onclick="takeaway()">
                         Levantar no Restaurante</button>
                 </div>
             </div>
+            <div class="row" style="margin-top:10px;">
+            </div>
         </div>
-    </div>
     </div>
     <script src="./Scripts/jquery-3.5.1.min.js"></script>
     <script src="./Scripts/bootstrap.min.js"></script>
@@ -146,10 +199,37 @@
             window.location.href = hr
         }
         function encomendar() {
-
+            pedidos[id].status = "concluido"
+            pedidos[id].comprador = currUser.p
+            amplify.store('pedidos', pedidos)
+            location.reload()
         }
         function takeaway() {
-
+            pedidos[id].status = "reservado"
+            pedidos[id].comprador = currUser.p
+            amplify.store('pedidos', pedidos)
+            location.reload()
+        }
+        function guardarRating() {
+            if (ratingValue == -1)
+                return
+            pedidos[id].rate = ratingValue
+            pedidos[id].rateDesc = $('#ratingDescForm').val()
+            console.log(pedidos[id])
+            amplify.store('pedidos', pedidos)
+            location.reload()
+        }
+        function changeRating(n) {
+            ratingValue = n
+            i = 1
+            while (i <= n) {
+                document.getElementById("s" + i).style = "color: orange; font-size: xx-large;";
+                i++;
+            }
+            while (i < 6) {
+                document.getElementById("s" + i).style = "color: black; font-size: xx-large;";
+                i++
+            }
         }
         function changeStatus(status) {
             pedidos[id].status = status
@@ -200,23 +280,34 @@
                     default:
                         break
                 }
-                if (status == "Expirado" || status == "Concluído")
-                    $('#anuncioEdit').hide()
-                if (status != "Disponível" && pedidos[id].comprador >= 0) {
-                    users = amplify.store("users")
-                    console.log(users)
-                    document.getElementById("compradorNome").innerHTML = users[pedidos[id].comprador].name;
-                    document.getElementById("compradorNIF").innerHTML = users[pedidos[id].comprador].nif;
-                    document.getElementById("compradorCont").innerHTML = users[pedidos[id].comprador].contacto;
-                    //$('#dadosComprador').show()
+                document.getElementById("anuncioStatus").style = color;
+                document.getElementById("anuncioStatus").innerHTML = status;
+                if (pedidos[id].status != "disponivel") {
+                    $('#btnTake').hide()
+                    $('#btnEnc').hide()
                 }
 
+                // Verificar avaliação
+                if (pedidos[id].comprador == currUser.p && pedidos[id].status != "reservado") {
+                    $('#ratingForm').show()
+                }
+                if (pedidos[id].rate != undefined) {
+                    $('#rating').show()
+                    $('#ratingForm').hide()
+                    if (pedidos[id].rateDesc.length > 0)
+                        document.getElementById("ratingDesc").innerHTML = pedidos[id].rateDesc;
+                    i = 1
+                    while (i <= pedidos[id].rate) {
+                        document.getElementById("sr" + i).style = "color: orange; font-size: xx-large;";
+                        i++;
+                    }
+                }
                 $('#anuncio').show()
             } else
                 $('#aviso').show()
 
             console.log(id)
-
+            ratingValue = -1
 
             $('#criar_pedido').click(function () {
                 console.log($('#ing').val())

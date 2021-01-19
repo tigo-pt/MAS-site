@@ -83,8 +83,8 @@
             console.log(pedidos)
             idx = [] // lista com indíces de pedidos correspondentes
             for (i in pedidos)
-                if (pedidos[i].partnerID == currUser.p)
-                    idx.push(i)
+                if (pedidos[pedidos.length - i - 1].partnerID == currUser.p)
+                    idx.push(pedidos.length - i - 1)
             if (idx.length < 1)
                 return false
             listPedidos(idx)
